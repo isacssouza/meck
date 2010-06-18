@@ -51,7 +51,7 @@ Build and Install
 
 To build meck and run the tests, simply type:
 
-    make test
+    ./rebar eunit
 
 To install meck, put it in your project directory where your Erlang applications are located and make sure that the load path to the `meck/ebin` folder is set up correctly (if you want to run from the shell, do `code:add_patha("/path/to/meck/ebin")`). For more instructions, see [Build and Install][4] on the meck wiki.
 
