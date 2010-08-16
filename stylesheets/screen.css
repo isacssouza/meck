@@ -14,14 +14,21 @@ body {
     max-width: 700px;
 }
 
+#ribbon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: 0;
+}
+
 /* Typography */
 
 h1     { font-size: 3em;         /* 16 x 3.375 = 48 */
          line-height: 1.5em; }   /* 48 x 1.5   = 72 */
-h2     { font-size: 1.5em;       /* 16 x 1.5   = 24 */ 
+h2     { font-size: 1.5em;       /* 16 x 1.5   = 24 */
          line-height: 2em; }     /* 24 x 2     = 48 */
 p      { font-size: 1em;         /* 16 x 1     = 16 */
-         line-height: 1.5em;     
+         line-height: 1.5em;
          margin-bottom: 1.5em; }
 code   { font-size: 1em;
          line-height: 1.5em;
@@ -32,16 +39,16 @@ pre    { padding: 1em 1em 0.9em 1em;
          margin: 0 0 1.9em; 0; }
 a      { line-height: 1.5em }
 
-h1, h2, h3 { 
+h1, h2, h3 {
     color: #A10404;
 }
 
-h1 { 
+h1 {
     text-shadow: #888 0 1px 1px;
     text-decoration: none;
 }
 
-h2 { 
+h2 {
     text-shadow: #888 0 1px 1px;
     text-transform: uppercase;
     font-weight: bold;
@@ -50,9 +57,9 @@ h2 {
 
 /* Special */
 
-.description  { 
-    font-size: 1.2em; 
-    margin-bottom: 30px; 
+.description  {
+    font-size: 1.2em;
+    margin-bottom: 30px;
     margin-top: 30px;
     font-style: italic;
 }
@@ -74,5 +81,5 @@ pre {
     color: #888;
     text-align: center;
     padding-top: 50px;
-    font-style: italic; 
+    font-style: italic;
 }
