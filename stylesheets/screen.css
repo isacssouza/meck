@@ -7,6 +7,7 @@ body {
     background-color: #FFFFFF;
     color: #222;
     font-family: "Trebuchet MS", Helvetica, Arial, FreeSans;
+    position: relative;
 }
 
 #main {
@@ -14,11 +15,20 @@ body {
     max-width: 700px;
 }
 
-#ribbon {
+.ribbon {
+    border: 0;
+}
+
+.top_right {
     position: absolute;
     top: 0;
     right: 0;
-    border: 0;
+}
+
+.bottom_right {
+    position: absolute;
+    bottom: 0;
+    right: 0;
 }
 
 /* Typography */
