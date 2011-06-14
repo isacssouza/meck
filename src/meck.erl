@@ -30,6 +30,7 @@
 -export([loop/4]).
 -export([delete/3]).
 -export([exception/2]).
+-export([set_passthrough/3]).
 -export([passthrough/1]).
 -export([history/1]).
 -export([validate/1]).
@@ -217,6 +218,19 @@ exception(Class, Reason) when Class == throw; Class == error; Class == exit ->
 -spec passthrough(Args::[term()]) -> no_return().
 passthrough(Args) -> throw(passthrough_fun(Args)).
 
+%% XXX @spec passthrough(Args::list(term())) -> no_return()
+%% @doc Calls the original function (if existing) inside an expectation fun.
+%%
+%% This call does not return, thus everything after this call inside
+%% an expectation fun will be ignored.
+%%
+%% <em>Note: this code should only be used inside an expect fun.</em>
+-spec set_passthrough(Mod::atom(), Func::atom(), 
+                      Arity::pos_integer()) -> ok.
+set_passthrough(Mod, Func, Arity) 
+  when is_atom(Mod), is_atom(Func), is_integer(Arity), Arity >= 0 ->
+    call(Mod, {set_passthrough, Func, Arity}).
+
 %% @spec validate(Mod:: atom() | list(atom())) -> boolean()
 %% @doc Validate the state of the mock module(s).
 %%
@@ -292,6 +306,10 @@ handle_call({expect, Func, Expect}, _From, S) ->
     {reply, ok, S#state{expects = NewExpects}};
 handle_call({expect, Func, Arity, Result}, _From, S) ->
     NewExpects = store_expect(S#state.mod, Func, {anon, Arity, Result},
+                              S#state.expects),
+    {reply, ok, S#state{expects = NewExpects}};
+handle_call({set_passthrough, Func, Arity}, _From, S) ->
+    NewExpects = store_expect(S#state.mod, Func, {set_passthrough, Arity},
                               S#state.expects),
     {reply, ok, S#state{expects = NewExpects}};
 handle_call({sequence, Func, Arity, Sequence}, _From, S) ->
@@ -430,6 +448,8 @@ change_expects(Op, Mod, Func, Value, Expects) ->
     meck_mod:compile_and_load_forms(to_forms(Mod, NewExpects)),
     NewExpects.
 
+e_store(Expects, Func, {set_passthrough, Arity}) ->
+    dict:store({Func, Arity}, passthrough, Expects);
 e_store(Expects, Func, Expect) ->
     dict:store({Func, arity(Expect)}, Expect, Expects).
 

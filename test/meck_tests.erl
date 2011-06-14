@@ -439,6 +439,16 @@ call_original_test() ->
     ?assertEqual(b, meck_test_module:b()),
     ok = meck:unload(meck_test_module).
 
+set_passthrough_test() ->
+    ?assertEqual({module, meck_test_module}, code:load_file(meck_test_module)),
+    ok = meck:new(meck_test_module),
+    ?assertEqual({file, ""}, code:is_loaded(meck_test_module_meck_original)),
+    ok = meck:expect(meck_test_module, a, fun() -> c end),
+    ?assertEqual(c, meck_test_module:a()),
+    ok = meck:set_passthrough(meck_test_module, a, 0),
+    ?assertEqual(a, meck_test_module:a()),
+    ok = meck:unload(meck_test_module).
+
 unload_renamed_original_test() ->
     ok = meck:new(meck_test_module),
     ok = meck:unload(meck_test_module),
